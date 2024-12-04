@@ -1,0 +1,322 @@
+Song Database
+-------------------------------------------------------------------------------------------
+CREATE (:Artist {artistID: 1, name: 'Artist A', genre: 'Pop', debutYear: 2010, country: 'USA'}); 
+CREATE (:Artist {artistID: 2, name: 'Artist B', genre: 'Rock', debutYear: 2015, country: 'UK'}); 
+
+
+CREATE (:Song {songID: 101, title: 'Hit Song', duration: '3:45', releaseDate: '2021-06-01', album: 'Debut Album', genre: 'Pop'}); 
+CREATE (:Song {songID: 102, title: 'Another Hit', duration: '4:05', releaseDate: '2022-01-15', album: 'Second Album', genre: 'Pop'});  
+
+
+CREATE (:SongAuthor {authorID: 201, name: 'Author A', birthDate: '1985-05-10', nationality: 'USA'}); 
+CREATE (:SongAuthor {authorID: 202, name: 'Author B', birthDate: '1990-08-20', nationality: 'UK'}); 
+
+
+CREATE (:RecordingCompany {companyID: 301, name: 'Music Co.', foundedYear: 2000, country: 'USA'}); 
+CREATE (:RecordingCompany {companyID: 302, name: 'Rock Records', foundedYear: 2010, country: 'UK'}); 
+
+
+CREATE (:RecordingStudio {studioID: 401, name: 'Studio One', location: 'Los Angeles', capacity: 10, equipment: 'Pro Tools, SSL Console'}); 
+CREATE (:RecordingStudio {studioID: 402, name: 'Studio Two', location: 'New York', capacity: 12, equipment: 'Neve Console'}); 
+
+
+//Artist → [Performs] → Song →[Written by] → Song_author.
+
+MATCH (a:Artist {name: 'Artist A'}), (s:Song {title: 'Hit Song'}) 
+CREATE (a)-[:PERFORMS]->(s); 
+MATCH (a:Artist {name: 'Artist B'}), (s:Song {title: 'Another Hit'}) 
+CREATE (a)-[:PERFORMS]->(s);
+
+MATCH (s:Song {title: 'Hit Song'}), (author:SongAuthor {name: 'Author A'}) 
+CREATE (s)-[:WRITTEN_BY]->(author); 
+MATCH (s:Song {title: 'Another Hit'}), (author:SongAuthor {name: 'Author B'}) 
+CREATE (s)-[:WRITTEN_BY]->(author);
+
+// Song → [Recorded in ] → Recording Studio →[managed by] →Recording Company
+
+MATCH (s:Song {title: 'Hit Song'}), (studio:RecordingStudio {name: 'Studio One'}) 
+CREATE (s)-[:RECORDED_IN]->(studio); 
+MATCH (s:Song {title: 'Another Hit'}), (studio:RecordingStudio {name: 'Studio Two'}) 
+CREATE (s)-[:RECORDED_IN]->(studio);
+
+MATCH (studio:RecordingStudio {name: 'Studio One'}), (company:RecordingCompany {name: 'Music Co.'}) 
+CREATE (studio)-[:MANAGED_BY]->(company); 
+MATCH (studio:RecordingStudio {name: 'Studio Two'}), (company:RecordingCompany {name: 'Rock Records'}) 
+CREATE (studio)-[:MANAGED_BY]->(company);
+
+//Recording Company → [Finances] → Song
+
+MATCH (company:RecordingCompany {name: 'Music Co.'}), (s:Song {title: 'Hit Song'}) 
+CREATE (company)-[:FINANCES {advanceAmount: 100000, royalties: 15, contractDuration: 5}]->(s); 
+MATCH (company:RecordingCompany {name: 'Rock Records'}), (s:Song {title: 'Another Hit'}) 
+CREATE (company)-[:FINANCES {advanceAmount: 75000, royalties: 10, contractDuration: 3}]->(s);
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+Employee database
+
+CREATE (:Employee {employeeID: 1, name: 'Alice', position: 'Developer', hireDate: '2020-01-15'}); 
+CREATE (:Employee {employeeID: 2, name: 'Bob', position: 'Designer', hireDate: '2019-03-10'}); 
+CREATE (:Employee {employeeID: 3, name: 'Charlie', position: 'Project Manager', hireDate: '2018-07-20'}); 
+
+CREATE (:Department {departmentID: 1, name: 'Engineering'}); 
+CREATE (:Department {departmentID: 2, name: 'Design'}); 
+CREATE (:Department {departmentID: 3, name: 'Management'});  
+
+
+CREATE (:Skillset {skillID: 1, skillName: 'Java'}); 
+CREATE (:Skillset {skillID: 2, skillName: 'JavaScript'}); 
+CREATE (:Skillset {skillID: 3, skillName: 'UI/UX Design'}); 
+CREATE (:Skillset {skillID: 4, skillName: 'Project Management'});
+
+CREATE (:Projects {projectID: 1, title: 'Project Alpha', budget: 100000}); 
+CREATE (:Projects {projectID: 2, title: 'Project Beta', budget: 150000});
+CREATE (:Projects {projectID: 3, title: 'Project Gamma', budget: 90000});
+-------------------------------------------------------------------------------------
+// Relationships
+
+//Works_in : employee works in a department
+
+MATCH (e:Employee {name: 'Alice'}), (d:Department {name: 'Engineering'}) 
+CREATE (e)-[:WORKS_IN]->(d); 
+MATCH (e:Employee {name: 'Bob'}), (d:Department {name: 'Design'}) 
+CREATE (e)-[:WORKS_IN]->(d); 
+MATCH (e:Employee {name: 'Charlie'}), (d:Department {name: 'Management'}) 
+CREATE (e)-[:WORKS_IN]->(d); 
+
+--------------------------------------------------------------------------------------
+//Has_acquired : employee has acquired a skill
+
+MATCH (e:Employee {name: 'Alice'}), (s:Skillset {skillName: 'Java'}) 
+CREATE (e)-[:HAS_ACQUIRED]->(s); 
+MATCH (e:Employee {name: 'Alice'}), (s:Skillset {skillName: 'JavaScript'}) 
+CREATE (e)-[:HAS_ACQUIRED]->(s); 
+MATCH (e:Employee {name: 'Bob'}), (s:Skillset {skillName: 'UI/UX Design'}) 
+CREATE (e)-[:HAS_ACQUIRED]->(s); 
+MATCH (e:Employee {name: 'Charlie'}), (s:Skillset {skillName: 'Project Management'}) 
+CREATE (e)-[:HAS_ACQUIRED]->(s); 
+
+---------------------------------------------------------------------------------------
+//Assigned_to : employee assigned to a project
+
+MATCH (e:Employee {name: 'Alice'}), (p:Projects {title: 'Project Alpha'}) 
+CREATE (e)-[:ASSIGNED_TO]->(p); 
+MATCH (e:Employee {name: 'Charlie'}), (p:Projects {title: 'Project Beta'}) 
+CREATE (e)-[:ASSIGNED_TO]->(p); 
+MATCH (e:Employee {name: 'Bob'}), (p:Projects {title: 'Project Gamma'}) 
+CREATE (e)-[:ASSIGNED_TO]->(p); 
+
+---------------------------------------------------------------------------------------
+//Controlled_by : A project is controlled by a department
+
+MATCH (p:Projects {title: 'Project Alpha'}), (d:Department {name: 'Engineering'}) 
+CREATE (p)-[:CONTROLLED_BY]->(d); 
+MATCH (p:Projects {title: 'Project Beta'}), (d:Department {name: 'Management'}) 
+CREATE (p)-[:CONTROLLED_BY]->(d);
+MATCH (p:Projects {title: 'Project Gamma'}), (d:Department {name: 'Design'}) 
+CREATE (p)-[:CONTROLLED_BY]->(d);
+---------------------------------------------------------------------------------------
+//Project_manager : Employee is a project_manager of a Project
+
+MATCH (e:Employee {name: 'Charlie'}), (p:Projects {title: 'Project Beta'}) 
+CREATE (e)-[:PROJECT_MANAGER]->(p);
+MATCH (e:Employee {name: 'Bob'}), (p:Projects {title: 'Project Gamma'}) 
+CREATE (e)-[:PROJECT_MANAGER]->(p);
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+Library Database
+
+
+CREATE (author1:Author {name: 'John Le Carre', born: date('1932-10-19')});
+CREATE (book1:Book {title: 'tinker,tailor,soldier spy', published: 1974});
+CREATE (author2:Author {name: 'Graham Greene', born: date('1904-10-2'), died: date('1991-4-2')});
+CREATE (book2:Book {title: 'Our man in havana', published: 1950});
+// Create "The Quiet American" book
+CREATE (book3:Book {title: 'The Quiet American', published: 1955});
+
+// Create "The Power and the Glory" book
+CREATE (book4:Book {title: 'The Power and the Glory', published: 1940});
+
+
+
+CREATE (reader1:Reader {name: 'Alan'});
+CREATE (readerAuthor:Author:Reader {name: 'lan'});
+CREATE (joshi:Reader {name: 'Mr. Joshi'});
+-----------------------------------------------------------------------------------------------------
+
+Match (author1:Author {name: 'John Le Carre'}), (book1:Book {title: 'tinker,tailor,soldier spy'})
+CREATE (author1)-[rel6:WROTE]->(book1)
+
+MATCH (author2:Author {name: 'Graham Greene'}), (book2:Book {title: 'Our man in havana'})
+CREATE (author2)-[rel7:WROTE]->(book2)
+
+MATCH (book1:Book {title: 'tinker,tailor,soldier spy'}),(reader1:Reader {name: 'Alan'})
+CREATE (reader1)-[rel8:RECOMMENDED{date: date('2011-7-5')}]->(book1)
+
+MATCH (book2:Book {title: 'Our man in havana'}), (readerAuthor:Author:Reader {name: 'lan'})
+CREATE (readerAuthor)-[rel9:RECOMMENDED{date:date('2011-2-3')}]->(book2)
+
+MATCH (book1:Book {title: 'tinker,tailor,soldier spy', published: 1974}), (readerAuthor:Author:Reader {name: 'lan'})
+CREATE (readerAuthor)-[rel0:RECOMMENDED{date: date('2011-9-9')}]->(book1)
+
+// Create Publishers
+CREATE (publisher1:Publisher {name: 'Penguin Books', city: 'Pune', founded: 1935});
+CREATE (publisher2:Publisher {name: 'HarperCollins', city: 'New York', founded: 1989});
+CREATE (publisher3:Publisher {name: 'Rupa Publications', city: 'Pune', founded: 1932});
+
+// Link Publishers to Books
+MATCH (book1:Book {title: 'tinker,tailor,soldier spy'}), (publisher1:Publisher {name: 'Penguin Books'})
+CREATE (publisher1)-[r:Published_By]->(book1);
+
+MATCH (book2:Book {title: 'Our man in havana'}), (publisher2:Publisher {name: 'HarperCollins'})
+CREATE (publisher2)-[r:Published_By]->(book2);
+
+// Create Issued Relationships
+MATCH (book1:Book {title: 'tinker,tailor,soldier spy'}), (reader1:Reader {name: 'Alan'})
+CREATE (reader1)-[rel1:ISSUED {date: date('2015-01-15')}]->(book1);
+
+MATCH (book2:Book {title: 'Our man in havana'}), (readerAuthor:Author:Reader {name: 'lan'})
+CREATE (readerAuthor)-[rel2:ISSUED {date: date('2016-03-20')}]->(book2);
+
+
+// Create Read Relationships
+MATCH (book1:Book {title: 'tinker,tailor,soldier spy'}), (reader1:Reader {name: 'Alan'})
+CREATE (reader1)-[rel3:READ {date: date('2011-07-05')}]->(book1);
+
+MATCH (book2:Book {title: 'Our man in havana'}), (readerAuthor:Author:Reader {name: 'lan'})
+CREATE (readerAuthor)-[rel4:READ {date: date('2012-02-10')}]->(book2);
+
+MATCH (joshi:Reader {name: 'Mr. Joshi'}), (book3:Book {title: 'The Quiet American'})
+CREATE (joshi)-[rel1:ISSUED {date: date('2024-10-03')}]->(book3);
+
+MATCH (joshi:Reader {name: 'Mr. Joshi'}), (book4:Book {title: 'The Power and the Glory'})
+CREATE (joshi)-[rel2:ISSUED {date: date('2024-10-03')}]->(book4);
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+Movie Database
+
+CREATE (:Actor {actorID: 1, name: 'Actor A', birthDate: '1980-05-15', nationality: 'USA'}); 
+CREATE (:Actor {actorID: 2, name: 'Actor B', birthDate: '1995-08-22', nationality: 'UK'}); 
+CREATE (:Actor {actorID: 3, name: 'Actor C', birthDate: '1975-11-30', nationality: 'Canada'}); 
+
+CREATE (:Movie {movieID: 101, title: 'Epic Adventure', releaseYear: 2022, genre: 'Action', duration: 120}); 
+CREATE (:Movie {movieID: 102, title: 'Romantic Journey', releaseYear: 2023, genre: 'Romance', duration: 90}); 
+CREATE (:Movie {movieID: 103, title: 'Mystery Unfolded', releaseYear: 2021, genre: 'Thriller', duration: 100});
+
+CREATE (:Role {roleID: 1, name: 'Lead Actor'}); 
+CREATE (:Role {roleID: 2, name: 'Supporting Actor'}); 
+CREATE (:Role {roleID: 3, name: 'Director'}); 
+CREATE (:Role {roleID: 4, name: 'Producer'}); 
+CREATE (:Role {roleID: 5, name: 'Financier'});
+
+CREATE (:Producer {producerID: 201, name: 'Producer A', experience: '15 years', nationality: 'USA'}); 
+CREATE (:Producer {producerID: 202, name: 'Producer B', experience: '10 years', nationality: 'UK'});
+
+CREATE (:Financier {financierID: 301, name: 'Financier A', budget: 500000}); 
+CREATE (:Financier {financierID: 302, name: 'Financier B', budget: 300000}); 
+
+CREATE (:Director {directorID: 401, name: 'Director A', experience: '20 years', nationality: 'USA'}); 
+CREATE (:Director {directorID: 402, name: 'Director B', experience: '5 years', nationality: 'UK'});
+
+--------------------------------------------------------------------------------
+MATCH (m:Movie {title: 'Epic Adventure'}),(a1:Actor {name: 'Actor A'})
+CREATE (m)-[:HAS_LEAD_ACTOR]->(a1);
+
+MATCH (m:Movie {title: 'Epic Adventure'}),(a2:Actor {name: 'Actor B'})
+CREATE (m)-[:HAS_SUPPORTING_ACTOR]->(a2);
+
+MATCH (m:Movie {title: 'Epic Adventure'}),(p:Producer {name: 'Producer A'})
+CREATE (m)-[:PRODUCED_BY]->(p);
+
+MATCH (m:Movie {title: 'Epic Adventure'}),(d:Director {name: 'Director A'}) 
+CREATE (m)-[:DIRECTED_BY]->(d);
+
+MATCH (m:Movie {title: 'Epic Adventure'}),(f:Financier {name: 'Financier A'}) 
+CREATE (m)-[:FINANCED_BY {amount: 200000}]->(f);
+
+-------------------------------------------------------------------------------
+
+MATCH (m:Movie {title: 'Mystery Unfolded'}), (a1:Actor {name: 'Actor A'}), (a2:Actor {name: 'Actor B'}), (p:Producer {name: 'Producer B'}), (d:Director {name: 'Director B'}), (f:Financier {name: 'Financier B'}) 
+
+CREATE (m)-[:HAS_LEAD_ACTOR {role: 'Lead Actor'}]->(a1), (m)-[:HAS_SUPPORTING_ACTOR {role: 'Supporting Actor'}]->(a2), (m)-[:PRODUCED_BY {role: 'Producer'}]->(p), (m)-[:DIRECTED_BY {role: 'Director'}]->(d), (m)-[:FINANCED_BY {role: 'Financier', amount: 200000}]->(f); 
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+
+Social Media Database
+
+CREATE (:Person {name: 'Alice', age: 30, location: 'New York'}); 
+CREATE (:Person {name: 'Bob', age: 25, location: 'San Francisco'}); 
+CREATE (:Person {name: 'Charlie', age: 35, location: 'Los Angeles'}); 
+
+CREATE (:Affiliations {name: 'University A'}); 
+CREATE (:Affiliations {name: 'Company B'});
+
+CREATE (:Groups {name: 'Sports Club'}); 
+CREATE (:Groups {name: 'Book Club'});
+
+CREATE (:Story {title: 'My Trip to Europe', content: 'I visited several countries in Europe...'}); 
+CREATE (:Story {title: 'Cooking Lessons', content: 'I learned how to cook Italian food...'}); 
+
+CREATE (:Timeline {year: 2024}); 
+
+MATCH (a:Person {name: 'Alice'}), (b:Person {name: 'Bob'}) 
+CREATE (a)-[:FRIEND_OF]->(b); 
+MATCH (b:Person {name: 'Bob'}), (c:Person {name: 'Charlie'}) 
+CREATE (b)-[:FRIEND_OF]->(c); 
+
+MATCH (a:Person {name: 'Alice'}), (aff:Affiliations {name: 'University A'}) 
+CREATE (a)-[:AFFILIATED_TO]->(aff); 
+MATCH (b:Person {name: 'Bob'}), (aff:Affiliations {name: 'Company B'}) 
+CREATE (b)-[:AFFILIATED_TO]->(aff); 
+
+MATCH (a:Person {name: 'Alice'}), (g:Groups {name: 'Sports Club'}) 
+CREATE (a)-[:BELONGS_TO]->(g); 
+MATCH (b:Person {name: 'Bob'}), (g:Groups {name: 'Book Club'}) 
+CREATE (b)-[:BELONGS_TO]->(g); 
+
+MATCH (a:Person {name: 'Alice'}), (s:Story {title: 'My Trip to Europe'}) 
+CREATE (a)-[:CREATES]->(s); 
+MATCH (b:Person {name: 'Bob'}), (s:Story {title: 'Cooking Lessons'}) 
+CREATE (b)-[:CREATES]->(s); 
+
+MATCH (s:Story {title: 'My Trip to Europe'}), (b:Person {name: 'Bob'}) 
+CREATE (s)-[:REFERS_TO]->(b); 
+MATCH (s:Story {title: 'Cooking Lessons'}), (c:Person {name: 'Charlie'}) 
+CREATE (s)-[:REFERS_TO]->(c); 
+
+MATCH (a:Person {name: 'Alice'}), (t:Timeline {year: 2023}) 
+CREATE (a)-[:CREATES]->(t); 
+MATCH (b:Person {name: 'Bob'}), (t:Timeline {year: 2024}) 
+CREATE (b)-[:CREATES]->(t); 
+
+MATCH (t:Timeline {year: 2023}) 
+CREATE (t)-[:CONTAINS]->(:Message {content: 'Had a great time in Paris!'}); 
+CREATE (t)-[:CONTAINS]->(:Message {content: 'Visited the Eiffel Tower.'}); 
+MATCH (t:Timeline {year: 2024}) 
+CREATE (t)-[:CONTAINS]->(:Message {content: 'Started a new job!'}); 
+
+-------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,403 @@
+// Assignment 1
+________________________________________
+//1. Write a scala program to check whether given number is positive, negative or zero using if/else statement
+
+import scala.io.StdIn
+object noCheck{
+
+def main (args:Array[String]):Unit={
+
+println("ENter a number")
+val n=StdIn.readInt()
+
+if(n>0){
+println("Number is positive")
+} else if(n<0){
+println("Number is negative")
+} else{
+println("Number is zero")
+}
+
+if(n>=0){
+var fact=1;
+
+for(i<-1 to n){
+fact=fact*i;
+}
+println(s"Factorial is $fact")
+} else{
+println("cant compute fact")
+}
+}
+}________________________________________
+//2. Write scala program to find the second maximum of four given numbers using if/else statements
+
+import scala.io.StdIn
+object secondMax{
+
+def main(args:Array[String]):Unit={
+
+println("Enter numbers")
+val input=StdIn.readLine()
+val n=input.split(" ").map(_.toInt)
+
+println(n.mkString(", "))
+
+var max=0
+var secondMaxx=0
+
+for(num<-n){
+if(num>max){
+secondMaxx=max
+max=num
+} else if(num>secondMaxx && num<max){
+secondMaxx=num
+}
+}
+
+if(secondMaxx==0){
+println("no second max")
+} else{
+println(s"The second max is $secondMaxx")
+}
+}
+}
+________________________________________
+//3. Write a scala program to find the factorial of a given number using a while loop
+
+import scala.io.StdIn
+
+object factorial{
+
+def main(args:Array[String]):Unit={
+
+println("Enter a number to find factorial")
+var n=StdIn.readInt()
+
+var fact=1
+var i=n
+while(n>0){
+fact=fact*n
+n=n-1
+}
+println(s"Factorial of $i is $fact")
+}
+}________________________________________
+//4. Write a progra to calculate the average of all numbers between n1 and n2
+
+import scala.io.StdIn
+object average{
+
+def main(args:Array[String]):Unit={
+println("Enter start: ")
+var start=StdIn.readInt()
+
+println("Enter end: ")
+var end=StdIn.readInt()
+
+var sum=0
+var count=0
+var i=start
+
+while(start<=end){
+sum=sum+start
+count=count+1
+start=start+1
+}
+
+val average=sum.toDouble/count
+println(s"The average of numbers from $i to $end is:$average")
+}
+}
+
+// Assignment 2
+________________________________________
+//1. Write a program to read five random numbers and check whether numbers are perfect or not. 
+
+import scala.util.Random
+object A2P1 {
+  def isPerfectNumber(n: Int): Boolean = {
+    if (n <= 1) return false  
+    val range = 1 until n
+   val divisors = range.filter { divisor => n % divisor == 0
+    }
+    val sumOfDivisors = divisors.sum
+    sumOfDivisors == n
+  }
+  def main(args: Array[String]): Unit = {
+    val random = new Random()
+    val numbers = List.fill(5)(random.nextInt(10) + 1)
+    println("Generated Numbers:")
+    numbers.foreach(println)
+    println("\nChecking for perfect numbers:")
+    numbers.foreach { n =>
+      if (isPerfectNumber(n)) println(s"$n is a perfect number")
+      else println(s"$n is not a perfect number")
+    }  }}
+________________________________________
+//2. Write a program to calculate the sum of prime numbers between 1 to 100. 
+
+object A2P2 {
+ def isPrime(n: Int): Boolean = {
+    if (n <= 1) {
+      false 
+    } else {
+      val range = 2 until n
+      var isPrime = true
+      for (d <- range) {
+        if (n % d == 0) {
+          isPrime = false
+        }
+      }
+      isPrime
+    }
+  }
+  def main(args: Array[String]): Unit = {   
+    val sumOfPrimes = (1 to 100).filter(isPrime).sum
+    println(s"The sum of prime numbers between 1 and 100 is: $sumOfPrimes")
+  }}
+________________________________________
+//3. Write a program to read an integer from a user and convert it to binary and octal using user defined functions.
+
+import scala.io.StdIn
+object A2P3 {
+  def toBinary(n: Int): String = {
+    if (n == 0) "0"
+    else {
+      var number = n
+      var binaryString = ""
+      while (number > 0) {
+        binaryString = (number % 2) + binaryString
+        number = number / 2
+      }
+      binaryString
+    }  }
+  def toOctal(n: Int): String = {
+    if (n == 0) "0"
+    else {
+      var number = n
+      var octalString = ""
+      while (number > 0) {
+        octalString = (number % 8) + octalString
+        number = number / 8
+      }
+      octalString
+    }
+  }
+  def main(args: Array[String]): Unit = {
+    println("Enter an integer:")
+    val userInput = StdIn.readInt() 
+    val binaryRepresentation = toBinary(userInput)
+    val octalRepresentation = toOctal(userInput)
+    println(s"Binary representation of $userInput is: $binaryRepresentation")
+    println(s"Octal representation of $userInput is: $octalRepresentation")
+  }}
+________________________________________
+
+//4. Write a Scala print the Fibonacci series up to a given number using a user defined function.
+
+import scala.io.StdIn
+object A2P4 {
+  def generateFibonacciUpTo(max: Int): List[Int] = {
+    var a = 0
+    var b = 1
+    var fibonacciList = List[Int]()
+    while (a <= max) {
+      fibonacciList = fibonacciList :+ a
+      val next = a + b
+      a = b
+      b = next
+    }
+    fibonacciList
+  }
+  def main(args: Array[String]): Unit = {
+ println("Enter the maximum number for Fibonacci series:")
+    val maxNumber = StdIn.readInt() 
+
+    val fibonacciSeries = generateFibonacciUpTo(maxNumber)
+    println(s"Fibonacci series up to $maxNumber is: ${fibonacciSeries.mkString(", ")}")
+  }}
+________________________________________
+ 
+// Assignment 3
+________________________________________
+// 1. Write a program to count uppercase letters in a string and convert it to lowercase and display the new string. 
+
+object A3P1 {
+  def main(args: Array[String]): Unit = {
+    val inputString = "Hello, World! This Is A Scala Program."
+
+    val uppercaseCount = inputString.count(_.isUpper)
+
+    val lowercaseString = inputString.toLowerCase
+
+    println(s"Original String: $inputString")
+    println(s"Number of Uppercase Letters: $uppercaseCount")
+    println(s"Lowercase String: $lowercaseString")
+  }
+}
+
+________________________________________
+//2. Write a program to read a character from the user and count the number of occurrences of that character in the given string. 
+
+import scala.io.StdIn.readLine
+
+object A3P2 {
+  def main(args: Array[String]): Unit = {
+    val givenString = "Hello, World! This is a Scala program."
+
+    println("Enter a character to count its occurrences in the given string:")
+    val inputChar = readLine().charAt(0)
+
+      val occurrences = givenString.count(_.toLower == inputChar.toLower)
+      println(s"Given String: $givenString")
+      println(s"Character '$inputChar' occurs $occurrences times in the string.")
+    
+    
+  }
+}
+
+________________________________________
+//3. Write a Scala program to remove the character in a given position of a given string. Check for a given position should be in the range 0...string length -1 inclusive. 
+
+import scala.io.StdIn.readInt
+import scala.io.StdIn.readLine
+
+object A3P3 {
+  def main(args: Array[String]): Unit = {
+    
+    val givenString = "Hello, World! This is a Scala program."
+
+    println(s"Original String: $givenString")
+
+    println("Enter the position of the character to remove (0-based index):")
+    val position = readInt()
+
+    if (position >= 0 && position < givenString.length) {
+      
+      val newString = removeCharacterAtPosition(givenString, position)
+
+      println(s"New String after removing character at position $position: $newString")
+    } else {
+      println(s"Invalid position. It should be between 0 and ${givenString.length - 1}.")
+    }
+  }
+
+  def removeCharacterAtPosition(str: String, position: Int): String = {
+    str.take(position) + str.drop(position + 1)
+  }
+}
+
+________________________________________
+//4. Write a Scala program to check if a given string is a palindrome using if/else statements and pattern matching.
+
+import scala.io.StdIn.readLine
+
+object A3P4 {
+  def main(args: Array[String]): Unit = {
+    println("Enter a string to check if it's a palindrome:")
+    val inputString = readLine()
+
+    val normalizedString = inputString.replaceAll("\\s", "").toLowerCase
+
+    if (isPalindrome(normalizedString)) {
+      println("The string \"" + inputString + "\" is a palindrome.")
+    } else {
+      println("The string \"" + inputString + "\" is not a palindrome.")
+    }
+  }
+
+  def isPalindrome(str: String): Boolean = {
+    str == str.reverse
+  }
+}
+________________________________________
+ 
+// Assignment 4
+________________________________________
+//1. Write a Scala program to check if two given strings are rotations of each other. 
+
+object A4q1 {
+  def main(args: Array[String]): Unit = {
+    // Example strings
+    val string1 = "good morning"
+    val string2 = "have a good day"
+    
+    // Check if both strings have the same length
+    if (string1.length == string2.length) {
+      // Concatenate string1 with itself
+      val concatenated = string1 + string1
+      
+      // Check if string2 is a substring of the concatenated string
+      if (concatenated.contains(string2)) {
+        println(s"$string2 is a rotation of  $string1")
+      } else {
+        println(s"$string2 is not a rotation of $string1")
+      }
+    } else {
+      println(s"$string2 is not a rotation of $string1 because they have different lengths.")
+    }
+  }
+}
+
+________________________________________
+//2. Create an array of strings and read a string from the user. Display all the elements of an array containing a given string.
+
+import scala.io.StdIn._
+
+object A4q2{
+  def main(args: Array[String]): Unit = {
+    val arrayOfStrings = Array("rakesh", "dishant", "rohan", "harish", "rupesh", "pratik", "rahul")
+    println("Enter a string to search for:")
+    val searchString = readLine()
+    val filteredStrings = arrayOfStrings.filter(_.contains(searchString))
+    if (filteredStrings.isEmpty) {
+      println(s"No elements contain the string $searchString")
+    } else {
+      println(s"Elements containing $searchString :")
+      filteredStrings.foreach(println)
+    }
+  }
+}
+
+________________________________________
+//3. Write a Scala program to reverse every word in a given string. 
+
+import scala.io.StdIn._
+
+object A4q3{
+  def main(args: Array[String]): Unit = 
+  {
+    println("Enter a string:")
+    val inputString = readLine()
+    val reversedWords = inputString.split("\\s+").map(_.reverse).mkString(" ")
+    println(s"String with each word reversed: $reversedWords")
+  }
+}
+
+________________________________________
+//4. Write a Scala program to read two strings, append them together and return the result. If the length of the strings is different, remove characters from the beginning of the longer string and make them equal length.
+
+import scala.io.StdIn._
+
+object A4q4 {
+  def main(args: Array[String]): Unit = {
+    println("Enter the first string:")
+    val string1 = readLine()
+    println("Enter the second string:")
+    val string2 = readLine()
+    val len1 = string1.length
+    val len2 = string2.length
+    val minLen = Math.min(len1, len2)
+    val trimmedString1 = if (len1 > len2) string1.substring(len1 - minLen) else string1
+    val trimmedString2 = if (len2 > len1) string2.substring(len2 - minLen) else string2
+
+    val result = trimmedString1 + trimmedString2
+    println(s"Resulting string: $result")
+  }
+}
+
+
+________________________________________
+
+

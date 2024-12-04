@@ -1,0 +1,299 @@
+1:Library Database
+
+a) List all people who have issued a book “......”
+
+MATCH (person)-[rel:ISSUED]->(book:Book {title: "tinker,tailor,soldier spy"})
+RETURN person.name;
+
+
+b) Count the number of people who have read “ ....”
+
+MATCH (person)-[rel:READ]->(book:Book {title: "Our man in havana"})
+RETURN count(person);
+
+
+c) Add a property “Number of books issued “ for Mr. Joshi and set its value as the count
+
+CREATE (joshi:Reader {name: 'Mr. Joshi'});
+
+MATCH (joshi:Reader {name: 'Mr. Joshi'})-[rel:ISSUED]->(book:Book)
+WITH joshi, count(rel) AS numBooksIssued
+SET joshi.number_of_books_issued = numBooksIssued
+RETURN joshi.name, joshi.number_of_books_issued;
+
+
+
+d) List the names of publishers from pune city.
+
+MATCH (publisher:Publisher {city: 'Pune'})
+RETURN publisher.name;
+
+-----------------------------------------------------------------------
+
+a) List all readers who have recommended either book “...” or “........” or “........”
+
+MATCH (reader:Reader)-[:RECOMMENDED]->(book:Book)
+WHERE book.title IN ["tinker,tailor,soldier spy", "Our man in havana", "The Quiet American"]
+RETURN reader.name;
+
+
+b) List the readers who haven’t recommended any book .
+
+MATCH (reader:Reader)
+WHERE NOT (reader)-[:RECOMMENDED]->()
+RETURN reader.name;
+
+c) List the authors who have written a book that has been read / issued by a maximum number of readers.
+
+MATCH (author:Author)-[:WROTE]->(book:Book)<-[:READ | :ISSUED]-(reader:Reader)
+WITH author, count(reader) AS reader_count
+ORDER BY reader_count DESC
+LIMIT 1
+RETURN author.name;
+
+
+d) List the names of books recommended by “..........” And read by at least one reader.
+
+MATCH (reader:Reader {name: "Alan"})-[:RECOMMENDED]->(book:Book)<-[:READ]-(reader2:Reader)
+RETURN book.title;
+
+e) List the names of books recommended by “.........” and read by the maximum number of readers.
+
+MATCH (reader:Reader {name: "Alan"})-[:RECOMMENDED]->(book:Book)<-[:READ]-(reader2:Reader)
+WITH book, count(reader2) AS reader_count
+ORDER BY reader_count DESC
+LIMIT 1
+RETURN book.title;
+
+
+f) List the names of publishers who haven’t published any books written by authors from Pune and Mumbai.
+
+MATCH (publisher:Publisher)
+WHERE NOT EXISTS ((publisher)-[:Published_By]->(book:Book)<-[:WROTE]-(author:Author)
+WHERE author.city IN ["Pune", "Mumbai"])
+RETURN publisher.name;
+
+
+g) List the names of voracious readers in our library
+
+MATCH (reader:Reader)-[:READ]->(book:Book)
+WITH reader, count(book) AS books_read
+WHERE books_read > 5
+RETURN reader.name;
+
+
+__________________________________________________________________________________________
+2: Song Database
+
+a) List the names of songs written by “:.....”
+
+MATCH (author:SongAuthor {name: 'Author A'})<-[:WRITTEN_BY]-(song:Song)
+RETURN song.title AS songTitles;
+
+
+b) List the names of record companies who have financed for the song “..”
+
+MATCH (company:RecordingCompany)-[:FINANCES]->(song:Song {title: 'Hit Song'})
+RETURN company.name AS recordingCompanies;
+
+
+c) List the names of artists performing the song “.....”
+
+MATCH (artist:Artist)-[:PERFORMS]->(song:Song {title: 'Another Hit'})
+RETURN artist.name AS performingArtists;
+
+
+d) Name the songs recorded by the studio “ .......”
+
+MATCH (studio:RecordingStudio {name: 'Studio One'})<-[:RECORDED_IN]-(song:Song)
+RETURN song.title AS recordedSongs;
+
+
+---------------------------------------------------------------------
+
+a) List the names of artists who have sung only songs written by “.........”
+
+MATCH (a:Artist)-[:PERFORMS]->(s)-[:WRITTEN_BY]->(author:SongAuthor {name: 'Author A'})
+WITH a, COUNT(s) AS songs_by_author_A
+WHERE songs_by_author_A = (
+    MATCH (a)-[:PERFORMS]->(s)
+    RETURN COUNT(s)
+)
+RETURN a.name;
+
+b) List the names of artists who have sung the maximum number of songs recorded by “......” studio .
+
+MATCH (a:Artist)-[:PERFORMS]->(s)-[:RECORDED_IN]->(studio:RecordingStudio {name: 'Studio One'})
+WITH a, COUNT(s) AS songs_recorded_in_studio_one
+RETURN a.name, songs_recorded_in_studio_one
+ORDER BY songs_recorded_in_studio_one DESC
+LIMIT 1;
+
+c) List the names of songs financed by “.....”, and sung by “........
+
+MATCH (company:RecordingCompany)-[:FINANCES]->(song:Song)<-[:PERFORMS]-(artist:Artist)
+WHERE company.name = 'Rock Records' AND artist.name = 'Artist B'
+RETURN song.title AS SongTitle, company.name AS Financer, artist.name AS Performer;
+
+
+__________________________________________________________________________________________
+3: Employee Database
+
+a) List the names of employees in the department “........”
+
+MATCH (e:Employee)-[:WORKS_IN]->(d:Department {name: "Engineering"})
+RETURN e.name;
+
+b) List the projects along with their properties, controlled by department “......”
+
+MATCH (p:Projects)-[:CONTROLLED_BY]->(d:Department {name: "Design"})
+RETURN p.projectID, p.title, p.budget;
+
+c) List the departments along with the count of employees in it
+
+MATCH (d:Department)-[:WORKS_IN]->(e:Employee)
+WITH d, COUNT(e) AS employeeCount
+RETURN d.name, employeeCount;
+
+d) List the skillset for an employee “.......”
+
+MATCH (e:Employee {name: "Alice"})-[:HAS_ACQUIRED]->(s:Skillset)
+RETURN s.skillName;
+
+----------------------------------------------------------------------
+
+a) List the names of employees having the same skills as employee “...........”
+
+MATCH (alice:Employee {name: "Alice"})-[:HAS_ACQUIRED]->(s:Skillset)
+MATCH (other:Employee)-[:HAS_ACQUIRED]->(s)
+WHERE other.name <> "Alice"
+RETURN other.name;
+
+b) List the projects controlled by a department “..........” and have employees of the same department working in it.
+
+MATCH (d:Department {name: "Engineering"})-[:CONTROLLED_BY]->(p:Projects)
+MATCH (e:Employee)-[:WORKS_IN]->(d)-[:ASSIGNED_TO]->(p)
+RETURN p.title;
+
+
+c) List the names of the projects belonging to departments managed by employee “.......”
+
+MATCH (charlie:Employee {name: "Charlie"})-[:PROJECT_MANAGER]->(p:Projects)
+RETURN p.title;
+
+__________________________________________________________________________________________
+4: Movie Database
+
+a) Find all actors who have acted in a movie “.......”
+
+MATCH (a:Actor)-[:ACTED_IN]->(m:Movie {title: "Epic Adventure"})
+RETURN a.name;
+
+b) Find all reviewer pairs, one following the other and both reviewing the same movie, and return entire subgraphs.
+
+MATCH (r1:Reviewer)-[:REVIEWED]->(m:Movie)<-[:REVIEWED]-(r2:Reviewer)
+WHERE r1 <> r2
+RETURN r1, m, r2;
+
+c) Find all actors that acted in a movie together after 2010 and return the actor names and movie node
+
+MATCH (m:Movie {releaseYear: 2010..})<-[:ACTED_IN]-(a1:Actor), (m)<-[:ACTED_IN]-(a2:Actor)
+WHERE a1 <> a2
+RETURN a1.name, a2.name, m;
+
+d) Find all movies produced by “ .......”
+
+MATCH (m:Movie)<-[:PRODUCED_BY]-(p:Producer {name: "Producer Name"})
+RETURN m.title;
+
+------------------------------------------------------------------------
+
+a) List the names of actors that paired in multiple movies together.
+
+MATCH (a1:Actor)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a2:Actor)
+WHERE a1 <> a2
+WITH a1, a2, COUNT(*) AS pairs
+WHERE pairs > 1
+RETURN a1.name, a2.name;
+
+b) List all pairs of actors–movie subgraphs along with the roles played.
+
+MATCH (a1:Actor)-[:ACTED_IN {role: r1}]->(m:Movie)<-[:ACTED_IN {role: r2}]-(a2:Actor)
+WHERE a1 <> a2
+RETURN a1.name, r1, m.title, r2, a2.name;
+
+c) List all reviewers and the ones they are following directly or via another a third Reviewer
+
+MATCH (r1:Reviewer)-[:FOLLOWS*]->(r2:Reviewer)
+RETURN r1.name, r2.name;
+
+d) List the names of movies that have the most number of reviews
+
+MATCH (m:Movie)<-[:REVIEWED]-(r:Reviewer)
+WITH m, COUNT(r) AS reviews
+RETURN m.title, reviews
+ORDER BY reviews DESC
+LIMIT 10;
+
+__________________________________________________________________________________________
+5: Social Network Database
+
+a) Find all friends of “John”, along with the year, since when john knows them.
+
+MATCH (john:Person {name: "John"})-[:FRIEND_OF]->(friend:Person)
+WITH john, friend
+MATCH (john)-[:CREATES]->(timeline:Timeline), (timeline)-[:CONTAINS]->(message:Message)
+WHERE message.content CONTAINS "met" AND message.content CONTAINS friend.name
+RETURN friend.name, message.timestamp AS met_year
+
+b) List out the affiliations of John.
+
+MATCH (john:Person {name: "John"})-[:AFFILIATED_TO]->(affiliation:Affiliations)
+RETURN affiliation.name
+
+c) Find all friends of john, who are born in the same year as John
+
+MATCH (john:Person {name: "John"})-[:FRIEND_OF]->(friend:Person)
+WHERE john.birthYear = friend.birthYear
+RETURN friend.name
+
+
+d) List out the messages posted by John in his timeline, during the year 2015
+
+MATCH (john:Person {name: "John"})-[:CREATES]->(timeline:Timeline {year: 2015})-[:CONTAINS]->(message:Message)
+RETURN message.content
+
+-------------------------------------------------------------------------
+
+a) List out the people who have created maximum timeline messages.
+
+MATCH (person:Person)-[:CREATES]->(timeline:Timeline)-[:CONTAINS]->(message:Message)
+WITH person, count(message) AS message_count
+ORDER BY message_count DESC
+LIMIT 1
+RETURN person.name, message_count
+
+b) List all friends of John’s friend, Tom
+
+MATCH (john:Person {name: "John"})-[:FRIEND_OF]->(tom:Person {name: "Tom"})-[:FRIEND_OF]->(friend:Person)
+RETURN friend.name
+
+
+c) List the people with maximum friends
+
+MATCH (person:Person)-[:FRIEND_OF]->(friend:Person)
+WITH person, count(friend) AS friend_count
+ORDER BY friend_count DESC
+LIMIT 1
+RETURN person.name, friend_count
+
+d) List the people who are part of more than 3 groups
+
+MATCH (person:Person)-[:BELONGS_TO]->(group:Groups)
+WITH person, count(group) AS group_count
+WHERE group_count > 3
+RETURN person.name, group_count
+
+
+__________________________________________________________________________________________
+

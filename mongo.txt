@@ -1,0 +1,998 @@
+Insert at least 10 documents in the collection Film –
+
+a. Insert at least one document with film belonging to two genres.
+-----------------------------------------------------------------------
+db.Film.insertOne({
+  "Film Id": 1,
+  "Title": "Jab We Met",
+  "Year of release": 2007,
+  "Genre": ["Romantic", "Comedy"], 
+  "Actors": [
+    {"First name": "Kareena", "Last name": "Kapoor"},
+    {"First name": "Shahid", "Last name": "Kapoor"}
+  ],
+  "Director": [
+    {"First name": "Imtiaz", "Last name": "Ali"}
+  ],
+  "Release details": [
+    {"Place": "India", "Date": "2007-10-26", "Rating": 7.9}
+  ]
+});
+-----------------------------------------------------------------------
+
+b. Insert at least one document with film that is released at more
+than one place and on two different dates.
+-----------------------------------------------------------------------
+db.Film.insertOne({
+  "Film Id": 2,
+  "Title": "Dil Chahta Hai",
+  "Year of release": 2001,
+  "Genre": ["Drama", "Comedy"],
+  "Actors": [
+    {"First name": "Aamir", "Last name": "Khan"},
+    {"First name": "Saif", "Last name": "Ali Khan"},
+    {"First name": "Akshaye", "Last name": "Khanna"}
+  ],
+  "Director": [
+    {"First name": "Farhan", "Last name": "Akhtar"}
+  ],
+  "Release details": [
+    {"Place": "India", "Date": "2001-07-27", "Rating": 8.0},
+    {"Place": "USA", "Date": "2001-08-15", "Rating": 7.8}
+  ]
+});
+------------------------------------------------------------------------
+
+c. Insert at least three documents with the films released in the
+same year.
+------------------------------------------------------------------------
+db.Film.insertMany([
+  {
+    "Film Id": 3,
+    "Title": "Lagaan",
+    "Year of release": 2001,
+    "Genre": ["Drama", "Historical"],
+    "Actors": [
+      {"First name": "Aamir", "Last name": "Khan"},
+      {"First name": "Gracy", "Last name": "Singh"}
+    ],
+    "Director": [
+      {"First name": "Ashutosh", "Last name": "Gowariker"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2001-06-15", "Rating": 8.1}
+    ]
+  },
+  {
+    "Film Id": 4,
+    "Title": "Kabhi Khushi Kabhie Gham",
+    "Year of release": 2001,
+    "Genre": ["Drama", "Family"],
+    "Actors": [
+      {"First name": "Shah Rukh", "Last name": "Khan"},
+      {"First name": "Kajol", "Last name": "Devgn"}
+    ],
+    "Director": [
+      {"First name": "Karan", "Last name": "Johar"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2001-12-14", "Rating": 7.4}
+    ]
+  },
+  {
+    "Film Id": 5,
+    "Title": "Gadar: Ek Prem Katha",
+    "Year of release": 2001,
+    "Genre": ["Action", "Drama"],
+    "Actors": [
+      {"First name": "Sunny", "Last name": "Deol"},
+      {"First name": "Amisha", "Last name": "Patel"}
+    ],
+    "Director": [
+      {"First name": "Anil", "Last name": "Sharma"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2001-06-15", "Rating": 7.9}
+    ]
+  }
+]);
+------------------------------------------------------------------------
+
+d. Insert at least two documents with the films directed by one
+director.
+------------------------------------------------------------------------
+db.Film.insertMany([
+  {
+    "Film Id": 6,
+    "Title": "3 Idiots",
+    "Year of release": 2009,
+    "Genre": ["Comedy", "Drama"],
+    "Actors": [
+      {"First name": "Aamir", "Last name": "Khan"},
+      {"First name": "Kareena", "Last name": "Kapoor"}
+    ],
+    "Director": [
+      {"First name": "Rajkumar", "Last name": "Hirani"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2009-12-25", "Rating": 8.4}
+    ]
+  },
+  {
+    "Film Id": 7,
+    "Title": "Munna Bhai MBBS",
+    "Year of release": 2003,
+    "Genre": ["Comedy", "Drama"],
+    "Actors": [
+      {"First name": "Sanjay", "Last name": "Dutt"},
+      {"First name": "Arshad", "Last name": "Warsi"}
+    ],
+    "Director": [
+      {"First name": "Rajkumar", "Last name": "Hirani"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2003-11-19", "Rating": 8.1}
+    ]
+  }
+]);
+------------------------------------------------------------------------
+
+e. Insert at least two documents with films those are acted by a pair
+‘Madhuri Dixit’ and ‘Shahrukh Khan’.
+------------------------------------------------------------------------
+db.Film.insertMany([
+  {
+    "Film Id": 8,
+    "Title": "Dil To Pagal Hai",
+    "Year of release": 1997,
+    "Genre": ["Romantic", "Drama"],
+    "Actors": [
+      {"First name": "Madhuri", "Last name": "Dixit"},
+      {"First name": "Shah Rukh", "Last name": "Khan"}
+    ],
+    "Director": [
+      {"First name": "Yash", "Last name": "Chopra"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "1997-10-31", "Rating": 7.9}
+    ]
+  },
+  {
+    "Film Id": 9,
+    "Title": "Devdas",
+    "Year of release": 2002,
+    "Genre": ["Drama", "Romantic"],
+    "Actors": [
+      {"First name": "Madhuri", "Last name": "Dixit"},
+      {"First name": "Shah Rukh", "Last name": "Khan"}
+    ],
+    "Director": [
+      {"First name": "Sanjay", "Last name": "Leela Bhansali"}
+    ],
+    "Release details": [
+      {"Place": "India", "Date": "2002-07-12", "Rating": 7.5}
+    ]
+  }
+]);
+------------------------------------------------------------------------
+
+2. Insert at least 10 documents in the collection Actor.
+Make sure, you are inserting the names of actors who have acted in
+films, given in the ‘Film’ collection.
+-----------------------------------------------------------------------
+db.Actor.insertMany([
+  {
+    "Actor Id": 1,
+    "First name": "Shah Rukh",
+    "Last name": "Khan",
+    "Address": {
+      "Street": "Bollywood House, 15th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400050"
+    },
+    "Contact Details": {
+      "Email Id": "srkhan@example.com",
+      "Phone No": "+91-9820464856"
+    },
+    "Age": 58
+  },
+  {
+    "Actor Id": 2,
+    "First name": "Kareena",
+    "Last name": "Kapoor",
+    "Address": {
+      "Street": "Bandra West, 24th Road",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400050"
+    },
+    "Contact Details": {
+      "Email Id": "kareena.kapoor@example.com",
+      "Phone No": "+91-9820464857"
+    },
+    "Age": 43
+  },
+  {
+    "Actor Id": 3,
+    "First name": "Aamir",
+    "last name": "Khan",
+    "Address": {
+      "Street": "Pali Hill, 102",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400050"
+    },
+    "Contact Details": {
+      "Email Id": "aamir.khan@example.com",
+      "Phone No": "+91-9820464858"
+    },
+    "Age": 59
+  },
+  {
+    "Actor Id": 4,
+    "First name": "Katrina",
+    "Last name": "Kaif",
+    "Address": {
+      "Street": "Juhu, 12th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400049"
+    },
+    "Contact Details": {
+      "Email Id": "katrina.kaif@example.com",
+      "Phone No": "+91-9820464859"
+    },
+    "Age": 41
+  },
+  {
+    "Actor Id": 5,
+    "First name": "Farhan",
+    "last name": "Akhtar",
+    "Address": {
+      "Street": "Versova, 9th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400061"
+    },
+    "Contact Details": {
+      "Email Id": "farhan.akhtar@example.com",
+      "Phone No": "+91-9820464860"
+    },
+    "Age": 50
+  },
+  {
+    "Actor Id": 6,
+    "First name": "Madhuri",
+    "Last name": "Dixit",
+    "Address": {
+      "Street": "Andheri West, 4th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400058"
+    },
+    "Contact Details": {
+      "Email Id": "madhuri.dixit@example.com",
+      "Phone No": "+91-9820464861"
+    },
+    "Age": 56
+  },
+  {
+    "Actor Id": 7,
+    "First name": "Sanjay",
+    "last name": "Dutt",
+    "Address": {
+      "Street": "Bandra East, 10th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400051"
+    },
+    "Contact Details": {
+      "Email Id": "sanjay.dutt@example.com",
+      "Phone No": "+91-9820464862"
+    },
+    "Age": 64
+  },
+  {
+    "Actor Id": 8,
+    "First name": "Hrithik",
+    "last name": "Roshan",
+    "Address": {
+      "Street": "Oberoi Sky Heights, 15th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400063"
+    },
+    "Contact Details": {
+      "Email Id": "hrithik.roshan@example.com",
+      "Phone No": "+91-9820464863"
+    },
+    "Age": 50
+  },
+  {
+    "Actor Id": 9,
+    "First name": "Akshay",
+    "Last name": "Kumar",
+    "Address": {
+      "Street": "Lokhandwala Complex, 8th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400053"
+    },
+    "Contact Details": {
+      "Email Id": "akshay.kumar@example.com",
+      "Phone No": "+91-9820464864"
+    },
+    "Age": 56
+  },
+  {
+    "Actor Id": 10,
+    "First name": "Deepika",
+    "Last name": "Padukone",
+    "Address": {
+      "Street": "Prabhadevi, 14th Floor",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400025"
+    },
+    "Contact Details": {
+      "Email Id": "deepika.padukone@example.com",
+      "Phone No": "+91-9820464865"
+    },
+    "Age": 38
+  }
+]);
+-----------------------------------------------------------------------
+
+3. Display all the documents inserted in both the collections.
+-----------------------------------------------------------------------
+db.Film.find().pretty();
+db.Actor.find().pretty();
+-----------------------------------------------------------------------
+
+4. Add a value to the rating of the film whose title starts with ‘T’.
+-----------------------------------------------------------------------
+db.Film.updateMany(
+  { "Title": { $regex: "^T" } },  // Title starts with 'T'
+  { $set: { "Release details.$[].Rating": 8.5 } }  // Update rating to 8.5
+);
+
+-----------------------------------------------------------------------
+5. Add an actor named "_____________" in the ‘Actor’ collection.
+Also add the details of the film in ‘Film’ collection in which this actor
+has acted in.
+-----------------------------------------------------------------------
+db.Actor.insertOne({
+  "Actor Id": 11,
+  "First name": "Rajkumar",
+  "Last name": "Rao",
+  "Address": {
+    "Street": "Navi Mumbai, Sector 15",
+    "City": "Mumbai",
+    "State": "Maharashtra",
+    "Country": "India",
+    "Pin-code": "400706"
+  },
+  "Contact Details": {
+    "Email Id": "raajkumarrao@example.com",
+    "Phone No": "+91-9820464866"
+  },
+  "Age": 40
+});
+
+
+db.Film.insertOne({
+  "Film Id": 13,
+  "Title": "Stree",
+  "Year of release": 2018,
+  "Genre": ["Horror", "Comedy"],
+  "Actors": [
+    {"First name": "Rajkumar", "Last name": "Rao"},
+    {"First name": "Shraddha", "Last name": "Kapoor"}
+  ],
+  "Director": [
+    {"First name": "Amar", "Last name": "Kaushik"}
+  ],
+  "Release details": [
+    {"Place": "India", "Date": "2018-08-31", "Rating": 7.5}
+  ]
+});
+------------------------------------------------------------------------
+
+6. Delete the film "______________".
+------------------------------------------------------------------------
+db.Film.deleteOne({ "Title": "Munna Bhai MBBS" });
+------------------------------------------------------------------------
+
+7. Delete an actor named "_________".
+------------------------------------------------------------------------
+db.Actor.deleteOne({ "First name": "Katrina","Last name": "Kaif"});
+------------------------------------------------------------------------
+
+8. Delete all actors from an ‘Actor’ collection who have age greater than
+“_____”
+------------------------------------------------------------------------
+db.Actor.deleteMany({ "Age": { $gt: 55 } });  
+------------------------------------------------------------------------
+
+9. Update the actor’s address where Actor Id is “ ______”.
+------------------------------------------------------------------------
+db.Actor.updateOne(
+  { "Actor Id": 2 },
+  {
+    $set: {
+      "Address": {
+        "Street": "New Street Address",
+        "City": "New City",
+        "State": "New State",
+        "Country": "India",
+        "Pin-code": "New Pin-code"
+      }
+    }
+  }
+);
+------------------------------------------------------------------------
+
+10. Update the genre of the film directed by “___________”.
+-------------------------------------------------------------------------
+db.Film.updateMany(
+  { "Director.First name": "Amar", "Director.Last name": "Kaushik" },
+  { $set: { "Genre": ["New Genre 1", "New Genre 2"] } }  
+);
+------------------------------------------------------------------------
+
+// Fetch all documents
+db.Film.find();
+
+// Fetch a film by title
+db.Film.find({"Title": "Lagaan"});
+
+// Fetch films released after 2005
+db.Film.find({"Year of release": { $gt: 2005 }});
+
+// Fetch films released before 2005
+db.Film.find({"Year of release": { $lt: 2005 }});
+
+// Fetch films with a rating greater than 8
+db.Film.find({"Release details.Rating": { $gt: 8 }});
+
+// Fetch films of a specific genre
+db.Film.find({"Genre": "Drama"});
+
+// Fetch films released in a specific place
+db.Film.find({"Release details.Place": "USA"});
+
+// Update a single film's title
+db.Film.updateOne(
+  {"Film Id": 1},
+  { $set: {"Title": "Jab We Met (Remastered)"} }
+);
+
+// Update the rating of multiple films with a rating greater than 7.8
+db.Film.updateMany(
+  {"Release details.Rating": { $gt: 7.8 }},
+  { $set: {"Release details.$[].Rating": 8.0} }
+);
+
+// Add a new field 'Box Office Collection' to a single document
+db.Film.updateOne(
+  {"Film Id": 3},
+  { $set: {"Box Office Collection": "Rs. 200 Crore"} }
+);
+
+// Increment rating by 0.5 for all films
+db.Film.updateMany(
+  {},
+  { $inc: {"Release details.$[].Rating": 0.5} }
+);
+
+// Add a genre to a specific film
+db.Film.updateOne(
+  {"Title": "Dil Chahta Hai"},
+  { $push: {"Genre": "Musical"} }
+);
+
+
+// Delete a single document by Film Id
+db.Film.deleteOne({"Film Id": 9});
+
+// Delete multiple documents where Year of release is less than 2000
+db.Film.deleteMany({"Year of release": { $lt: 2000 }});
+
+// Delete documents with rating less than 8
+db.Film.deleteMany({"Release details.Rating": { $lt: 8 }});
+
+
+// Fetch only the Title and Year of release
+db.Film.find({}, {"Title": 1, "Year of release": 1, _id: 0});
+
+// Group by Genre and count films
+db.Film.aggregate([
+  { $unwind: "$Genre" },
+  { $group: { _id: "$Genre", count: { $sum: 1 } } }
+]);
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+use Company;
+-----------------------------------------------------------------------
+1. Insert at least 5 documents in ‘Employee’ collection.
+-----------------------------------------------------------------------
+db.Employee.insertMany([
+  {
+    "Employee ID": 101,
+    "First Name": "Rajesh",
+    "Last Name": "Sharma",
+    "Email": "rajesh.sharma@example.com",
+    "Phone No": "+91-9820464888",
+    "Address": {
+      "House No": "12A",
+      "Street": "MG Road",
+      "City": "Delhi",
+      "State": "Delhi",
+      "Country": "India",
+      "Pin-code": "110001"
+    },
+    "Salary": 75000,
+    "Designation": "Software Engineer",
+    "Experience": 5,
+    "Date of Joining": new Date("2018-06-15"),
+    "Birthdate": new Date("1990-03-25")
+  },
+  {
+    "Employee ID": 102,
+    "First Name": "Anita",
+    "Last Name": "Verma",
+    "Email": "anita.verma@example.com",
+    "Phone No": "+91-9820464889",
+    "Address": {
+      "House No": "45",
+      "Street": "Nehru Place",
+      "City": "Delhi",
+      "State": "Delhi",
+      "Country": "India",
+      "Pin-code": "110019"
+    },
+    "Salary": 82000,
+    "Designation": "HR Manager",
+    "Experience": 8,
+    "Date of Joining": new Date("2016-11-01"),
+    "Birthdate": new Date("1985-09-10")
+  },
+  {
+    "Employee ID": 103,
+    "First Name": "Suresh",
+    "Last Name": "Kumar",
+    "Email": "suresh.kumar@example.com",
+    "Phone No": "+91-9820464890",
+    "Address": {
+      "House No": "78",
+      "Street": "Raja Garden",
+      "City": "Mumbai",
+      "State": "Maharashtra",
+      "Country": "India",
+      "Pin-code": "400067"
+    },
+    "Salary": 68000,
+    "Designation": "Accountant",
+    "Experience": 4,
+    "Date of Joining": new Date("2019-03-22"),
+    "Birthdate": new Date("1988-11-15")
+  },
+  {
+    "Employee ID": 104,
+    "First Name": "Priya",
+    "Last Name": "Singh",
+    "Email": "priya.singh@example.com",
+    "Phone No": "+91-9820464891",
+    "Address": {
+      "House No": "22",
+      "Street": "Vasant Kunj",
+      "City": "Delhi",
+      "State": "Delhi",
+      "Country": "India",
+      "Pin-code": "110070"
+    },
+    "Salary": 90000,
+    "Designation": "Marketing Manager",
+    "Experience": 6,
+    "Date of Joining": new Date("2017-07-05"),
+    "Birthdate": new Date("1986-06-20")
+  },
+  {
+    "Employee ID": 105,
+    "First Name": "Ravi",
+    "Last Name": "Mehta",
+    "Email": "ravi.mehta@example.com",
+    "Phone No": "+91-9820464892",
+    "Address": {
+      "House No": "56",
+      "Street": "Koramangala",
+      "City": "Bangalore",
+      "State": "Karnataka",
+      "Country": "India",
+      "Pin-code": "560034"
+    },
+    "Salary": 77000,
+    "Designation": "Product Manager",
+    "Experience": 7,
+    "Date of Joining": new Date("2015-05-18"),
+    "Birthdate": new Date("1984-02-14")
+  }
+]);
+-----------------------------------------------------------------------
+
+2. Insert multiple documents (at least 10) into the ‘Transaction’
+collection by passing an array of documents to the
+db.collection.insert () method.
+-----------------------------------------------------------------------
+use Company;  // Switch to the 'Company' database
+
+db.Transaction.insertMany([
+  {
+    "Transaction Id": 1001,
+    "Transaction Date": new Date("2024-08-01"),
+    "Name": "Rajesh",
+    "Transaction Details": {
+      "Item Id": "I001",
+      "Item Name": "Laptop",
+      "Quantity": 1,
+      "Price": 50000
+    },
+    "Payment": {
+      "Type of Payment": "Credit",
+      "Total amount paid": 50000,
+      "Payment Successful": true
+    },
+    "Remark": "Urgent purchase"
+  },
+  {
+    "Transaction Id": 1002,
+    "Transaction Date": new Date("2024-08-02"),
+    "Name": "Anita",
+    "Transaction Details": {
+      "Item Id": "I002",
+      "Item Name": "Smartphone",
+      "Quantity": 2,
+      "Price": 30000
+    },
+    "Payment": {
+      "Type of Payment": "Debit",
+      "Total amount paid": 60000,
+      "Payment Successful": true
+    },
+    "Remark": ""
+  },
+  {
+    "Transaction Id": 1003,
+    "Transaction Date": new Date("2024-08-03"),
+    "Name": "Suresh",
+    "Transaction Details": {
+      "Item Id": "I003",
+      "Item Name": "Headphones",
+      "Quantity": 5,
+      "Price": 5000
+    },
+    "Payment": {
+      "Type of Payment": "Cash",
+      "Total amount paid": 25000,
+      "Payment Successful": true
+    },
+    "Remark": "Discount applied"
+  },
+  {
+    "Transaction Id": 1004,
+    "Transaction Date": new Date("2024-08-04"),
+    "Name": "Meena",
+    "Transaction Details": {
+      "Item Id": "I004",
+      "Item Name": "Keyboard",
+      "Quantity": 3,
+      "Price": 1500
+    },
+    "Payment": {
+      "Type of Payment": "Credit",
+      "Total amount paid": 4500,
+      "Payment Successful": true
+    },
+    "Remark": "For office use"
+  },
+  {
+    "Transaction Id": 1005,
+    "Transaction Date": new Date("2024-08-05"),
+    "Name": "Arun",
+    "Transaction Details": {
+      "Item Id": "I005",
+      "Item Name": "Mouse",
+      "Quantity": 4,
+      "Price": 800
+    },
+    "Payment": {
+      "Type of Payment": "Debit",
+      "Total amount paid": 3200,
+      "Payment Successful": false
+    },
+    "Remark": "Pending payment"
+  },
+  {
+    "Transaction Id": 1006,
+    "Transaction Date": new Date("2024-08-06"),
+    "Name": "Pooja",
+    "Transaction Details": {
+      "Item Id": "I006",
+      "Item Name": "Monitor",
+      "Quantity": 1,
+      "Price": 20000
+    },
+    "Payment": {
+      "Type of Payment": "Credit",
+      "Total amount paid": 20000,
+      "Payment Successful": true
+    },
+    "Remark": ""
+  },
+  {
+    "Transaction Id": 1007,
+    "Transaction Date": new Date("2024-08-07"),
+    "Name": "Ravi",
+    "Transaction Details": {
+      "Item Id": "I007",
+      "Item Name": "Printer",
+      "Quantity": 1,
+      "Price": 12000
+    },
+    "Payment": {
+      "Type of Payment": "Cash",
+      "Total amount paid": 12000,
+      "Payment Successful": true
+    },
+    "Remark": "Replacement for old printer"
+  },
+  {
+    "Transaction Id": 1008,
+    "Transaction Date": new Date("2024-08-08"),
+    "Name": "Sita",
+    "Transaction Details": {
+      "Item Id": "I008",
+      "Item Name": "Webcam",
+      "Quantity": 2,
+      "Price": 3000
+    },
+    "Payment": {
+      "Type of Payment": "Debit",
+      "Total amount paid": 6000,
+      "Payment Successful": true
+    },
+    "Remark": "For video conferencing"
+  },
+  {
+    "Transaction Id": 1009,
+    "Transaction Date": new Date("2024-08-09"),
+    "Name": "Deepak",
+    "Transaction Details": {
+      "Item Id": "I009",
+      "Item Name": "USB Drive",
+      "Quantity": 10,
+      "Price": 1000
+    },
+    "Payment": {
+      "Type of Payment": "Credit",
+      "Total amount paid": 10000,
+      "Payment Successful": true
+    },
+    "Remark": ""
+  },
+  {
+    "Transaction Id": 1010,
+    "Transaction Date": new Date("2024-08-10"),
+    "Name": "Nisha",
+    "Transaction Details": {
+      "Item Id": "I010",
+      "Item Name": "Router",
+      "Quantity": 1,
+      "Price": 5000
+    },
+    "Payment": {
+      "Type of Payment": "Cash",
+      "Total amount paid": 5000,
+      "Payment Successful": true
+    },
+    "Remark": "New office router"
+  }
+]);
+-----------------------------------------------------------------------
+
+3. Display all the documents of both the collections in a formatted manner.
+-----------------------------------------------------------------------
+db.Employee.find().pretty();
+db.Transaction.find().pretty();
+-----------------------------------------------------------------------
+
+4. Update salary of all employees by giving an increment of Rs. 4000.
+-----------------------------------------------------------------------
+first display the id, name and salary
+
+db.Employee.find(
+  {},
+  {
+    "Employee ID": 1,
+    "First Name": 1,
+    "Salary": 1,
+    "_id": 0
+  }
+);
+------------------------
+update the salary
+
+db.Employee.updateMany(
+  {},
+  { $inc: { "Salary": 4000 } }
+);
+-----------------------------------------------------------------------
+
+5. Update the remark for transaction id 201.
+-----------------------------------------------------------------------
+use Company; 
+
+check previous remark
+ db.Transaction.findOne(
+  { "Transaction Id": 1010 },
+  { "Remark": 1, "_id": 0 }
+);
+
+------------------------------
+db.Transaction.updateOne(
+  { "Transaction ID": 1010 },   
+  { $set: { "Remark": "Updated remark for transaction ID 1010" } }
+);
+-----------------------------------------------------------------------
+
+6. Update designation of an employee named "Ravi” from supervisor to
+manager.
+-----------------------------------------------------------------------
+db.Employee.updateOne(
+  { "First Name": "Ravi","Last Name": "Mehta","Designation": "Product Manager" },  
+  { $set: { "Designation": "Manager" } } 
+);
+-----------------------------------------------------------------------
+
+7. Update designation of an employee having Employee Id as _____.
+-----------------------------------------------------------------------
+db.Employee.find( {}, { "Employee ID":1, "First Name":1, "Designation":1, "_id":0 } );
+----------------------------
+db.Employee.updateOne(
+  { "Employee ID": 104 },
+  { $set: { "Designation": "Senior Manager" } } 
+);
+-----------------------------------------------------------------------
+
+8. Change the address of an employee having Employee Id as _____.
+-----------------------------------------------------------------------
+db.Employee.updateOne(
+  { "Employee ID": 103 },
+  { 
+    $set: { 
+      "Address.House No": "45B",
+      "Address.Street": "New Street",
+      "Address.City": "Mumbai",
+      "Address.State": "Maharashtra",
+      "Address.Country": "India",
+      "Address.Pin-code": "400001"
+    }
+  }
+);
+-----------------------------------------------------------------------
+
+9. Delete transaction made by “_____” employee on the given date.
+-----------------------------------------------------------------------
+db.Transaction.find({
+  "Name": "Pooja",
+  "Transaction Date": new Date("2024-08-15")
+});
+
+
+db.Transaction.deleteOne({
+  "Name": "Pooja",
+  "Transaction Date": new Date("2024-08-15")
+});
+-----------------------------------------------------------------------
+
+10. Delete all the employees whose first name starts with ‘K’.
+-----------------------------------------------------------------------
+db.Employee.deleteMany({
+  "First Name": /^K/
+});
+-----------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Q1
+
+db.Employee.find({ "Designation":{$in:["Manager","Floor Supervisor"]} }).pretty()
+
+//Q2
+
+db.Employee.find({
+... "Last Name":/Gupta$/
+... }).toArray()
+
+//Q3
+
+db.Employee.find({ "Salary":{$gt:50000}}, {"First Name":1, "Last Name":1, "Salary":1, "_id":0} ).toArray();
+
+//Q4
+
+db.Employee.find({}).sort({"Designation":-1}).toArray();
+
+//Q5
+
+db.Employee.count()
+
+//Q6
+
+db.Transaction.aggregate([ { $group:{ _id:null, totalAmountPaid:{$sum:"$Payment.Total amount paid"} } } ]);
+
+//Q7
+
+db.Transaction.aggregate([ { $group:{ _id:"$Payment.Type of Payment", totalAmountPaid:{$sum:"$Payment.Total amount paid"} } } ]);
+
+//Q8
+
+db.Transaction.find({}).sort({"Transaction Date":-1}).limit(1).projection({"Transaction Id":1, "_id":0});
+
+//Q9
+
+db.Transaction.aggregate([ 
+{ 
+$match:{"Payment.Total amount paid":{$gt:500}} 
+}, 
+{ 
+$lookup:{ from:"Employee", 
+localField:"Name", 
+foreignField:"First Name", 
+as:"employee_info" } 
+}, 
+$unwind:"$employee_info" }, 
+{ 
+$group:{ _id:"$employee_info.Designation" } 
+} 
+]);
+
+
+//Q10
+
+db.Transaction.mapReduce(
+ 
+  function() {
+    var itemId = this["Transaction Details"]["Item Id"];
+    var quantity = this["Transaction Details"]["Quantity"];
+    if (itemId === "I001") {
+      emit(itemId, quantity);
+    }
+  },
+ 
+  function(key, values) {
+    return Array.sum(values);
+  },
+  {
+    out: "item_totals",  
+    query: { "Transaction Details.Item Id": "I001" }  
+  }
+);
+
+db.item_totals.find();
+
